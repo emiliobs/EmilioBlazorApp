@@ -24,7 +24,7 @@ namespace EmilioBlazorApp.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerMaster>>> GetCustomerMasters()
         {
-            return await _context.CustomerMaster.ToListAsync();
+            return await _context.CustomerMaster.OrderBy(c => c.CustName).ToListAsync();
         }
 
         // GET: api/CustomerMasters/5
