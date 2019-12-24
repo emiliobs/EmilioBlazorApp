@@ -91,7 +91,7 @@ else
                 <td>@cust.Email.</td>
                 <td>@cust.PhoneNo.</td>
                 <td>@cust.InsertBy.</td>
-                <td><button class="btn btn-primary" style="width:110px">Edit</button></td>
+                <td><button class="btn btn-primary" style="width:110px" @onclick="@(async() => await EditCustomer(cust.CustCd) )">Edit</button></td>
                 <td><button class="btn btn-danger" style="width:110px">Delete</button></td>
             </tr>
               }
@@ -111,7 +111,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-       
+
         await  LoadData();
 
         //ids = "0";
@@ -123,7 +123,7 @@ else
     {
         ids = "0";
 
-         custs = await Http.GetJsonAsync<CustomerMaster[]>("/api/CustomerMasters/");
+        custs = await Http.GetJsonAsync<CustomerMaster[]>("/api/CustomerMasters/");
     }
 
     void AddNewCustomer()
@@ -141,16 +141,35 @@ else
         {
             await Http.SendJsonAsync(HttpMethod.Post, "/api/CustomerMasters/",custObj);
             custs = await Http.GetJsonAsync<CustomerMaster[]>("/api/CustomerMasters/");
-            
+            await LoadData();
+
         }
         else
         {
             await Http.SendJsonAsync(HttpMethod.Put,$"/api/CustomerMasters/{custObj.CustCd}",custObj);
             custs = await Http.GetJsonAsync<CustomerMaster[]>("/api/CustomerMasters/");
-          
+
+            await LoadData();
         }
 
-        await LoadData();
         showAddrow = false;
+    }
+
+    //Edit Sujtomers Method:
+    protected async Task EditCustomer(string CustomerId)
+    {
+        showAddrow = true;
+
+        ids = "1";
+        loadFailed = false;
+        ids = CustomerId.ToString();
+
+        custObj = await Http.GetJsonAsync<CustomerMaster>($"/api/CustomerMasters/{CustomerId}");
+
+        var s = custObj.CustCd;
+
+
+        showAddrow = true;
+
     }
 }
