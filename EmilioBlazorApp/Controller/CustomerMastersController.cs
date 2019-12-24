@@ -15,7 +15,7 @@ namespace EmilioBlazorApp.Controller
     {
         private readonly SqlDbContext _context;
 
-        public CustomerMastersController(SqlDbContext context)
+        public CustomerMastersController(SqlDbContext context)  
         {
             _context = context;
         }
