@@ -13,6 +13,7 @@ namespace EmilioBlazorApp.Data
 
         }
 
-        public DbSet<CustomerMaster> customerMasters { get; set; }
+        public DbSet<CustomerMaster> CustomerMaster { get; set; }
+
     }
 }
