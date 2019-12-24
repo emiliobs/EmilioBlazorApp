@@ -50,6 +50,7 @@
         </table>
     </form>
 }
+<hr />
 
 <table width="100%" style="background:#0A2464;color:honeydew">
     <tr>
@@ -92,7 +93,7 @@ else
                 <td>@cust.PhoneNo.</td>
                 <td>@cust.InsertBy.</td>
                 <td><button class="btn btn-primary" style="width:110px" @onclick="@(async() => await EditCustomer(cust.CustCd) )">Edit</button></td>
-                <td><button class="btn btn-danger" style="width:110px">Delete</button></td>
+                <td><button class="btn btn-danger" style="width:110px" @onclick="(async () => await DeleteCustomer(cust.CustCd))">Delete</button></td>
             </tr>
               }
         </tbody>
@@ -171,5 +172,17 @@ else
 
         showAddrow = true;
 
+    }
+
+    //Delete Customer Method:
+    protected async Task DeleteCustomer(string custormerID)
+    {
+        showAddrow = false;
+
+        ids = custormerID.ToString();
+        await Http.DeleteAsync($"/api/CustomerMasters/{custormerID}");
+        custs = await Http.GetJsonAsync<CustomerMaster[]>("/api/CustomerMasters/");
+
+        await LoadData();
     }
 }
